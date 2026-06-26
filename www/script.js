@@ -1,4 +1,4 @@
-import { db } from '../firebase-config.js';
+import { db } from './firebase-config.js';
 import { doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.x.x/firebase-firestore.js";
 
 // ... ab hier folgt dein restlicher Code ...
