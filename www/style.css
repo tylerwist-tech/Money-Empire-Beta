@@ -1,360 +1,45 @@
-:root {
-    --bg-color: #050b14;
-    --panel-bg: rgba(15, 23, 42, 0.7);
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --accent-green: #10b981;
-    --accent-hover: #059669;
-    --gold: #fbbf24;
-    --purple: #8b5cf6;
-}
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <script type="module" src="script.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Money Empire Deluxe</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-}
+<!-- NEU: Bugfreier, weicher Hintergrund (Glow Orbs) -->
+<div class="glow-orb orb-1"></div>
+<div class="glow-orb orb-2"></div>
 
-body {
-    background-color: var(--bg-color);
-    color: var(--text-main);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    overflow: hidden;
-    position: relative;
-}
+<div id="notifications"></div>
 
-/* --- NEUER, SMOOTHER HINTERGRUND --- */
-.glow-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(90px);
-    z-index: -1;
-    opacity: 0.4;
-    animation: floatOrb 15s infinite alternate ease-in-out;
-}
+<div id="app">
+    <header>
+        <h1>Money Empire</h1>
+        <div id="prestige-display" style="display: none;">Prestige Multiplikator: x<span id="multiplier">1</span></div>
+        <div id="balance-display">$0</div>
+        <div id="stats-display">0/sec | 1/Klick</div>
+    </header>
 
-.orb-1 {
-    width: 350px; height: 350px;
-    background: var(--accent-green);
-    top: 5%; left: -10%;
-}
+    <main>
+        <div id="clicker-container">
+            <div id="clicker-btn">
+                <span class="btn-text">$</span>
+            </div>
+        </div>
+    </main>
 
-.orb-2 {
-    width: 450px; height: 450px;
-    background: var(--purple);
-    bottom: -10%; right: -10%;
-    animation-delay: -7s;
-}
+    <div id="shop">
+        <div class="shop-header">
+            <div class="shop-title">Upgrades & Investments</div>
+            <button id="prestige-btn" class="hidden">Empire verkaufen (Prestige)</button>
+        </div>
+        <div id="upgrades-container"></div>
+    </div>
+</div>
 
-@keyframes floatOrb {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(60px, 40px) scale(1.1); }
-}
-
-#app {
-    width: 100%;
-    max-width: 500px;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    z-index: 1;
-}
-
-/* --- HEADER --- */
-header {
-    text-align: center;
-    padding: 30px 20px 10px;
-    z-index: 10;
-}
-
-h1 {
-    font-size: 1.1rem;
-    color: var(--gold);
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    margin-bottom: 5px;
-    text-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
-}
-
-#prestige-display {
-    color: var(--purple);
-    font-size: 0.85rem;
-    font-weight: bold;
-    margin-bottom: 5px;
-    text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
-}
-
-#balance-display {
-    font-size: 3.8rem;
-    font-weight: 900;
-    background: linear-gradient(to bottom, #fff, var(--accent-green));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 15px rgba(16, 185, 129, 0.4));
-    line-height: 1.2;
-}
-
-#stats-display {
-    font-size: 0.95rem;
-    color: var(--text-main);
-    margin-top: 5px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(10px);
-    display: inline-block;
-    padding: 6px 18px;
-    border-radius: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-/* --- MAIN CLICKER --- */
-main {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-
-#clicker-container {
-    position: relative;
-}
-
-/* Weichere Button Animationen */
-#clicker-btn {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #10b981 0%, #047857 100%);
-    border: 4px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 
-        0 20px 40px rgba(16, 185, 129, 0.3), 
-        inset 0 -15px 25px rgba(0,0,0,0.4),
-        inset 0 15px 25px rgba(255,255,255,0.4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    /* Feder-Effekt beim Loslassen */
-    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
-    animation: floatingBtn 4s ease-in-out infinite;
-}
-
-.btn-text {
-    font-size: 6rem;
-    font-weight: 900;
-    color: white;
-    text-shadow: 0 5px 15px rgba(0,0,0,0.3);
-}
-
-/* Sofortiges Drücken ohne Verzögerung */
-#clicker-btn:active {
-    transform: scale(0.85) translateY(5px) !important;
-    box-shadow: 0 10px 15px rgba(16, 185, 129, 0.2), inset 0 -5px 10px rgba(0,0,0,0.5);
-    transition: transform 0.05s ease, box-shadow 0.05s ease;
-    animation: none;
-}
-
-@keyframes floatingBtn {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-12px) scale(1.02); }
-}
-
-/* --- NEUE: JUICY FLIEGENDE ZAHLEN --- */
-.floating-text {
-    position: absolute;
-    color: #fff;
-    font-weight: 900;
-    font-size: 2rem;
-    pointer-events: none;
-    text-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    z-index: 100;
-    /* Nutzen CSS Variablen aus JS für sanftes Verteilen (Fontänen-Effekt) */
-    animation: floatJuicy 1s cubic-bezier(0.25, 1, 0.25, 1) forwards;
-}
-
-@keyframes floatJuicy {
-    0% { 
-        opacity: 0; 
-        transform: translate(-50%, -50%) scale(0.5); 
-    }
-    15% { 
-        opacity: 1; 
-        transform: translate(calc(-50% + (var(--x) * 0.3)), -80%) scale(1.2); 
-    }
-    100% { 
-        opacity: 0; 
-        transform: translate(calc(-50% + var(--x)), -200%) scale(0.8); 
-        filter: blur(1px); 
-    }
-}
-
-/* --- SHOP --- */
-#shop {
-    background: var(--panel-bg);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border-top: 1px solid rgba(255,255,255,0.1);
-    border-top-left-radius: 35px;
-    border-top-right-radius: 35px;
-    padding: 25px 20px;
-    height: 48vh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch; /* Smoother scroll für iOS */
-    scroll-behavior: smooth;
-    box-shadow: 0 -10px 40px rgba(0,0,0,0.4);
-}
-
-#shop::-webkit-scrollbar { width: 5px; }
-#shop::-webkit-scrollbar-track { background: transparent; }
-#shop::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 10px; }
-
-.shop-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-
-.shop-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--text-main);
-}
-
-#prestige-btn {
-    background: linear-gradient(135deg, #8b5cf6, #6d28d9);
-    border: none;
-    color: white;
-    padding: 8px 15px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
-    transition: all 0.2s;
-    animation: pulsePrestige 2s infinite;
-}
-
-#prestige-btn.hidden { display: none; }
-#prestige-btn:active { transform: scale(0.92); transition: 0.1s; }
-
-@keyframes pulsePrestige {
-    0%, 100% { box-shadow: 0 0 10px rgba(139, 92, 246, 0.4); }
-    50% { box-shadow: 0 0 25px rgba(139, 92, 246, 0.8); }
-}
-
-.upgrade-card {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 18px;
-    padding: 16px;
-    margin-bottom: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.upgrade-card:active:not(.disabled) {
-    transform: scale(0.96);
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.upgrade-card.disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    background: rgba(0,0,0,0.1);
-}
-
-.upgrade-info h3 {
-    font-size: 1.1rem;
-    margin-bottom: 4px;
-    color: var(--text-main);
-}
-
-.upgrade-info p {
-    font-size: 0.85rem;
-    color: var(--accent-green);
-    opacity: 0.9;
-}
-
-.upgrade-cost {
-    background: rgba(16, 185, 129, 0.15);
-    color: var(--accent-green);
-    padding: 8px 16px;
-    border-radius: 12px;
-    font-weight: 800;
-    font-size: 1rem;
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    transition: all 0.3s;
-}
-
-.upgrade-card.disabled .upgrade-cost {
-    background: rgba(255, 255, 255, 0.03);
-    color: var(--text-muted);
-    border-color: rgba(255,255,255,0.05);
-}
-
-/* NOTIFICATIONS */
-#notifications {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.toast {
-    background: rgba(30, 41, 59, 0.95);
-    border: 1px solid var(--accent-green);
-    color: white;
-    padding: 15px 25px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    font-weight: bold;
-    animation: slideDown 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), fadeOut 0.5s ease 4.5s forwards;
-}
-
-@keyframes slideDown {
-    0% { transform: translateY(-50px); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
-}
-@keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
-
-/* GOLDEN COIN EVENT */
-.golden-coin {
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    background: radial-gradient(circle, #fbbf24 0%, #d97706 100%);
-    border-radius: 50%;
-    border: 3px solid #fef3c7;
-    box-shadow: 0 0 30px #fbbf24, inset 0 0 15px rgba(255,255,255,0.8);
-    cursor: pointer;
-    z-index: 50;
-    animation: spin 3s linear infinite, popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-weight: bold;
-    font-size: 1.5rem;
-}
-
-@keyframes spin { 100% { transform: rotate(360deg); } }
-@keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+<script src="script.js"></script>
+</body>
+</html>
