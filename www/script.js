@@ -1,5 +1,9 @@
-import { db } from '../firebase-config.js';
+// Oben in www/script.js
+import { db } from '../firebase-config.js'; // Achte auf die zwei Punkte!
 import { doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.x.x/firebase-firestore.js";
+
+// Ganz am Ende der Datei
+initGame();
 
 // ... ab hier folgt dein restlicher Code ...
 
