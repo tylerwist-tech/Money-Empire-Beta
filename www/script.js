@@ -1,3 +1,22 @@
+import { db } from '../firebase-config.js';
+import { doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.x.x/firebase-firestore.js";
+
+// ... ab hier folgt dein restlicher Code ...
+
+// Jetzt kannst du deine Funktion schreiben
+async function geldSammeln() {
+    try {
+        const userRef = doc(db, "users", "user_id_123");
+        await updateDoc(userRef, {
+            balance: 500
+        });
+        console.log("Geld wurde erfolgreich aktualisiert!");
+    } catch (e) {
+        console.error("Fehler beim Speichern: ", e);
+    }
+}
+
+
 let gameData = {
     balance: 0,
     clickPower: 1,
@@ -95,6 +114,19 @@ function showNotification(text) {
     toast.innerHTML = text;
     notificationsContainer.appendChild(toast);
     setTimeout(() => toast.remove(), 5000);
+}
+
+async function syncMitFirebase() {
+    try {
+        const userRef = doc(db, "users", "user_id_123");
+        await updateDoc(userRef, {
+            balance: gameData.balance,
+            lastSaveTime: Date.now()
+        });
+        console.log("Firebase sync erfolgreich!");
+    } catch (e) {
+        console.error("Fehler beim Sync: ", e);
+    }
 }
 
 function initGame() {
@@ -255,10 +287,6 @@ function updateShopColors() {
     });
 }
 
-function saveGame() {
-    gameData.lastSaveTime = Date.now();
-    localStorage.setItem('moneyEmpireSave', JSON.stringify(gameData));
-}
 
 prestigeBtn.addEventListener('click', () => {
     if(confirm('Möchtest du dein Imperium wirklich verkaufen? Du fängst bei $0 an, erhältst aber dauerhaft +0.5x Multiplikator auf alles!')) {
@@ -322,3 +350,12 @@ function spawnGoldenCoin() {
 }
 
 initGame();
+
+function saveGame() {
+    gameData.lastSaveTime = Date.now();
+    localStorage.setItem('moneyEmpireSave', JSON.stringify(gameData));
+    
+    // HIER rufst du den Firebase-Sync auf:
+    syncMitFirebase()
+
+}
