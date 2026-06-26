@@ -1,21 +1,14 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.x.x/firebase-app.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.x.x/firebase-firestore.js";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBe96l-zFoKeGV7iuzW1AOGTJrRS96MCSs",
-  authDomain: "money-empire-server.firebaseapp.com",
-  projectId: "money-empire-server",
-  storageBucket: "money-empire-server.firebasestorage.app",
-  messagingSenderId: "488996031863",
-  appId: "1:488996031863:web:a7470bd86b8ddabfad2572",
-  measurementId: "G-N8MG9P3S0T"
+  apiKey: "DEINE_API_KEY",
+  authDomain: "DEIN_PROJEKT.firebaseapp.com",
+  projectId: "DEIN_PROJEKT_ID",
+  storageBucket: "DEIN_PROJEKT.appspot.com",
+  messagingSenderId: "DEINE_ID",
+  appId: "DEINE_APP_ID"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+export const db = getFirestore(app);
