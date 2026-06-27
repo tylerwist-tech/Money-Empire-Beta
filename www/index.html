@@ -2,43 +2,33 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Money Empire Deluxe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Empire</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<!-- NEU: Bugfreier, weicher Hintergrund (Glow Orbs) -->
-<div class="glow-orb orb-1"></div>
-<div class="glow-orb orb-2"></div>
-
-<div id="notifications"></div>
-
-<div id="app">
-    <header>
-        <h1>Money Empire</h1>
-        <div id="prestige-display" style="display: none;">Prestige Multiplikator: x<span id="multiplier">1</span></div>
-        <div id="balance-display">$0</div>
-        <div id="stats-display">0/sec | 1/Klick</div>
-    </header>
-
-    <main>
-        <div id="clicker-container">
-            <div id="clicker-btn">
-                <span class="btn-text">$</span>
-            </div>
+    <div id="game-container">
+        <h1>MONEY EMPIRE</h1>
+        
+        <div id="balance-container">
+            <span id="balance-display">$0</span>
         </div>
-    </main>
-
-    <div id="shop">
-        <div class="shop-header">
-            <div class="shop-title">Upgrades & Investments</div>
-            <button id="prestige-btn" class="hidden">Empire verkaufen (Prestige)</button>
+        
+        <div id="stats-container">
+            <span id="income-display">0/sec</span> | <span id="click-power-display">1/Klick</span>
         </div>
-        <div id="upgrades-container"></div>
+
+        <button id="click-btn">$</button>
+
+        <div id="shop-section">
+            <h2>Upgrades & Investments</h2>
+            <div id="upgrades-container">
+                </div>
+            
+            <button id="prestige-btn">Empire verkaufen (Prestige)</button>
+        </div>
     </div>
-</div>
 
-<script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
